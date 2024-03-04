@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <title>Title</title>
+  <link rel="stylesheet" href="css/css.css" />
+</head>
+<body>
+<header class="login_header_wrap">
+  <div class="board_view">
+    <div class="header">
+      <dl>
+        <dt>로그인 아이디</dt>
+        <dd th:text="${member.id}"></dd>
+      </dl>
+      <dl>
+        <dt>이름</dt>
+        <dd th:text="${member.name}"></dd>
+      </dl>
+      <div class="bt_wrap">
+        <form th:action="@{/tory/logout}" method="post">
+          <a class="on" type="submit">로그아웃</a>
+        </form>
+
+        <!--<a href="#">수정</a>-->
+      </div>
+    </div>
+  </div>
+</header>
+</body>
+</html>

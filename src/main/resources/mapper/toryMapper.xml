@@ -1,0 +1,20 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="toryMapper">
+    <insert id="addMember" parameterType="com.example.tory.domain.Member">
+        INSERT INTO MEMBER (id, password, name, email)
+        VALUES (#{id}, #{password}, #{name}, #{email})
+    </insert>
+
+    <select id="findById" parameterType="com.example.tory.domain.LoginForm" resultType="com.example.tory.domain.Member">
+        select
+            id
+            , password
+            , name
+            , email
+        from MEMBER
+        where id = #{id} and password = #{password}
+    </select>
+</mapper>
