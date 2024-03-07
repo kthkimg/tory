@@ -2,6 +2,7 @@ package com.example.tory.controller;
 
 import com.example.tory.domain.LoginForm;
 import com.example.tory.domain.Member;
+import com.example.tory.domain.Post;
 import com.example.tory.service.ToryService;
 import com.example.tory.store.ToryRepository;
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,10 +13,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -76,6 +75,31 @@ public class ToryController {
             session.invalidate();
         }
         log.info("로그아웃");
+        return "redirect:/";
+    }
+
+    @GetMapping("/write")
+    public String write(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member member, Model model){
+        model.addAttribute("post", new Post());
+        if(member == null){
+            log.info("logout 글쓰기");
+            return "tory/write";
+        }
+        log.info("login 글쓰기");
+        model.addAttribute("member", member);
+        return "tory/loginWrite";
+    }
+
+    @PostMapping("/write")
+    public String addPost(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member member,
+                            @ModelAttribute("post") Post post, RedirectAttributes redirectAttributes){
+        post.setIsMember("N");
+        if(member != null){
+            post.setAuthor(member.getId());
+            post.setIsMember("Y");
+            post.setMemberSeq(member.getMemberSeq());
+        }
+        toryRepository.addPost(post);
         return "redirect:/";
     }
 

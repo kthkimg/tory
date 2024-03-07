@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -36,7 +36,7 @@
             </div>
             <div class="bt_wrap">
                 <a href="view.html" class="on">등록</a>
-                <a href="list.html">취소</a>
+                <a th:href="@{/}">취소</a>
             </div>
         </div>
     </div>

@@ -10,11 +10,43 @@
 
     <select id="findById" parameterType="com.example.tory.domain.LoginForm" resultType="com.example.tory.domain.Member">
         select
-            id
+            member_seq as memberSeq
+            , id
             , password
             , name
             , email
         from MEMBER
         where id = #{id} and password = #{password}
     </select>
+
+    <insert id="addPost" parameterType="com.example.tory.domain.Post">
+        INSERT INTO post (
+            <if test="title != null">title,</if>
+            <if test="author != null">author,</if>
+            <if test="content != null">content,</if>
+            is_delete,
+            <if test="isMember != null">is_member,</if>
+            password,
+            <if test="memberSeq != null">member_seq,</if>
+            createAt,
+            updateAt
+        )
+        VALUES (
+            <if test="title != null">#{title},</if>
+            <if test="author != null">#{author},</if>
+            <if test="content != null">#{content},</if>
+            'N',
+            <if test="isMember != null">#{isMember},</if>
+        <choose>
+            <when test="password != null">#{password}</when>
+            <otherwise>null</otherwise>
+        </choose>,
+        <choose>
+            <when test="memberSeq != null">#{memberSeq}</when>
+            <otherwise>null</otherwise>
+        </choose>,
+        now(),
+        now()
+        )
+    </insert>
 </mapper>
