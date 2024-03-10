@@ -16,8 +16,8 @@ public class Post {
     private String isMember;
     private String password;
     private int memberSeq;
-    private LocalDateTime createAt;
-    private LocalDateTime updateAt;
+    private String createAt;
+    private String updateAt;
 }
 
 

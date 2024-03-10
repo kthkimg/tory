@@ -7,10 +7,16 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class ToryRepository {
     @Autowired
     private SqlSessionTemplate sqlSessionTemplate;
+
+    public List<Post> findAllPost(){
+        return sqlSessionTemplate.selectList("toryMapper.findAllPost");
+    }
 
     public int addMember(Member member) {
         return sqlSessionTemplate.insert("toryMapper.addMember", member);

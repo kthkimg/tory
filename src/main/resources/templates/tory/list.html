@@ -30,40 +30,13 @@
                     <div class="date">작성일</div>
                     <div class="count">조회</div>
                 </div>
-                <div>
-                    <div class="num">5</div>
-                    <div class="title"><a href="view.html">글 제목이 들어갑니다.</a></div>
-                    <div class="writer">김이름</div>
-                    <div class="date">2021.1.15</div>
-                    <div class="count">33</div>
-                </div>
-                <div>
-                    <div class="num">4</div>
-                    <div class="title"><a href="view.html">글 제목이 들어갑니다.</a></div>
-                    <div class="writer">김이름</div>
-                    <div class="date">2021.1.15</div>
-                    <div class="count">33</div>
-                </div>
-                <div>
-                    <div class="num">3</div>
-                    <div class="title"><a href="view.html">글 제목이 들어갑니다.</a></div>
-                    <div class="writer">김이름</div>
-                    <div class="date">2021.1.15</div>
-                    <div class="count">33</div>
-                </div>
-                <div>
-                    <div class="num">2</div>
-                    <div class="title"><a href="view.html">글 제목이 들어갑니다.</a></div>
-                    <div class="writer">김이름</div>
-                    <div class="date">2021.1.15</div>
-                    <div class="count">33</div>
-                </div>
-                <div>
-                    <div class="num">1</div>
-                    <div class="title"><a href="view.html">글 제목이 들어갑니다.</a></div>
-                    <div class="writer">김이름</div>
-                    <div class="date">2021.1.15</div>
-                    <div class="count">33</div>
+
+                <div th:each="post : ${posts}">
+                    <div class="num" th:text="${post.postSeq}">5</div>
+                    <div class="title" th:text="${post.title}"><a href="view.html">글 제목이 들어갑니다.</a></div>
+                    <div class="writer" th:text="${post.author}">김이름</div>
+                    <div class="date" th:text="${post.createAt}">2021.1.15</div>
+<!--                    <div class="count">33</div>-->
                 </div>
             </div>
             <div class="board_page">

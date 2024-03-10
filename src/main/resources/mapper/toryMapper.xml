@@ -3,6 +3,21 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="toryMapper">
+    <select id="findAllPost" resultType="com.example.tory.domain.Post">
+        SELECT
+            post_seq as postSeq
+            , title as title
+            , author as author
+            , content as content
+            , is_delete as isDelete
+            , is_member as isMember
+            , password as password
+            , member_seq as memberSeq
+            , DATE_FORMAT(createAt, '%m-%d') as createAt
+            , DATE_FORMAT(updateAt, '%m-%d') as updateAt
+        FROM post
+    </select>
+
     <insert id="addMember" parameterType="com.example.tory.domain.Member">
         INSERT INTO MEMBER (id, password, name, email)
         VALUES (#{id}, #{password}, #{name}, #{email})
