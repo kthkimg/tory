@@ -1,8 +1,7 @@
 package com.example.tory.controller;
 
-import com.example.tory.domain.LoginForm;
-import com.example.tory.domain.Member;
-import com.example.tory.domain.Post;
+import com.example.tory.domain.*;
+import com.example.tory.service.ToryService;
 import com.example.tory.store.ToryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,11 +18,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class HomeController {
     private final ToryRepository toryRepository;
+    private final ToryService toryService;
 
     @GetMapping("/")
-    private String home(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member member, Model model, @ModelAttribute("loginForm")LoginForm form) {
-        List<Post> posts = toryRepository.findAllPost();
-        model.addAttribute("posts", posts);
+    private String home(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member member, Model model
+            , @ModelAttribute("loginForm")LoginForm form, @ModelAttribute("params")SearchDto params) {
+        PagingResponse<Post> paging = toryService.findAllPost(params);
+        model.addAttribute("paging", paging);
         if(member != null){
             model.addAttribute("member", member);
         }

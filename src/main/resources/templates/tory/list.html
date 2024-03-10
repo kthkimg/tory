@@ -22,33 +22,11 @@
             <p>공지사항을 빠르고 정확하게 안내해드립니다.</p>
         </div>
         <div class="board_list_wrap">
-            <div class="board_list">
-                <div class="top">
-                    <div class="num">번호</div>
-                    <div class="title">제목</div>
-                    <div class="writer">글쓴이</div>
-                    <div class="date">작성일</div>
-                    <div class="count">조회</div>
-                </div>
-
-                <div th:each="post : ${posts}">
-                    <div class="num" th:text="${post.postSeq}">5</div>
-                    <div class="title" th:text="${post.title}"><a href="view.html">글 제목이 들어갑니다.</a></div>
-                    <div class="writer" th:text="${post.author}">김이름</div>
-                    <div class="date" th:text="${post.createAt}">2021.1.15</div>
-<!--                    <div class="count">33</div>-->
-                </div>
+            <div class="board_list" id="list">
             </div>
-            <div class="board_page">
-                <a href="#" class="bt first"><<</a>
-                <a href="#" class="bt prev"><</a>
-                <a href="#" class="num on">1</a>
-                <a href="#" class="num">2</a>
-                <a href="#" class="num">3</a>
-                <a href="#" class="num">4</a>
-                <a href="#" class="num">5</a>
-                <a href="#" class="bt next">></a>
-                <a href="#" class="bt last">>></a>
+
+            <div class="board_page" id="paging">
+
             </div>
             <div class="bt_wrap">
                 <a th:href="@{/tory/write}" class="on">등록</a>
@@ -57,4 +35,112 @@
         </div>
     </div>
 </body>
+<th:block layout:fragment="script">
+    <script th:inline="javascript">
+        window.onload = () => {
+            findAllPost();
+        }
+
+        function findAllPost(){
+            const list = [[${paging.list}]];
+
+            if(!list.length){
+                document.getElementById('list').innerHTML = '<td colspan="5"><div>겸색된 결과가 없습니다.</div></td>';
+                drawPage();
+            }
+            const pagination = [[${paging.pagination}]]
+
+            const params = [[${params}]];
+
+            let num = pagination.totalRecordCount - ((params.page - 1) *params.recordSize);
+            drawList(list, num);
+            console.log('hello');
+
+            drawPage(pagination, params);
+        }
+
+        function drawList(list, num){
+            let html = '';
+            html += `
+                <div class="top">
+                    <div class="num">번호</div>
+                    <div class="title">제목</div>
+                    <div class="writer">글쓴이</div>
+                    <div class="date">작성일</div>
+                    <div class="count">조회</div>
+                </div>
+            `;
+
+            list.forEach(row => {
+                html += `
+                <div>
+                    <div class="num" text="${row.postSeq}">${row.postSeq}</div>
+                    <div class="title" text="${row.title}"><a href="view.html">${row.title}</a></div>
+                    <div class="writer" text="${row.author}">${row.author}</div>
+                    <div class="date" text="${row.createAt}">${row.createAt}</div>
+                </div>
+                `;
+            })
+            document.getElementById('list').innerHTML = html;
+        }
+
+        function drawPage(pagination, params){
+            if(!pagination || !params){
+                document.querySelector('.paging').innerHTML = '';
+                throw new Error('Missing required parameters...');
+            }
+
+            let html = '';
+
+            if(pagination.existPrevPage){
+                console.log('existPrevPage')
+                html += `
+                    <a href="javascript:void(0);" onclick="movePage(1)" class="bt first"><<</a>
+                    <a href="javascript:void(0);" onclick="movePage(${pagination.startPage - 1})" class=bt prev"><</a>
+                `
+            }
+            for(let i = pagination.startPage; i <= pagination.endPage; i++){
+                console.log('for문')
+                html += (i !== params.page)
+                    ? `<a href="javascript:void(0);" class="num" onclick="movePage(${i});">${i}</a>`
+                    : `<a href="#" class="num on"">${i}</a>`
+            }
+
+            if(pagination.existNextPage){
+            console.log('existNextPage')
+                html += `
+                    <a href="javascript:void(0);" onclick="movePage(${pagination.endPage + 1});" class="bt next">></a>
+                    <a href="javascript:void(0);" onclick="movePage(${pagination.totalPageCount});" class="bt last">>></a>
+                `;
+            }
+            document.getElementById('paging').innerHTML = html;
+        }
+
+        function movePage(page){
+            const queryParams = {
+                page: (page) ? page : 1,
+                recordSize: 10,
+                pageSize: 10
+            }
+            location.href = location.pathname + '?' + new URLSearchParams(queryParams).toString();
+        }
+
+    </script>
+</th:block>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

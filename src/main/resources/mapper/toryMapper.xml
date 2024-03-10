@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="toryMapper">
-    <select id="findAllPost" resultType="com.example.tory.domain.Post">
+    <select id="findAllPost" parameterType="com.example.tory.domain.SearchDto" resultType="com.example.tory.domain.Post">
         SELECT
             post_seq as postSeq
             , title as title
@@ -16,6 +16,18 @@
             , DATE_FORMAT(createAt, '%m-%d') as createAt
             , DATE_FORMAT(updateAt, '%m-%d') as updateAt
         FROM post
+        WHERE is_delete = 'N'
+        ORDER BY
+            post_seq DESC
+        LIMIT #{pagination.limitStart}, #{recordSize}
+    </select>
+
+    <select id="getPostCount" parameterType="com.example.tory.domain.SearchDto" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM post
+        WHERE
+            is_delete = 'N'
     </select>
 
     <insert id="addMember" parameterType="com.example.tory.domain.Member">
