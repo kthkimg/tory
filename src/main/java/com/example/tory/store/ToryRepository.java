@@ -34,6 +34,10 @@ public class ToryRepository {
     public int getPostCount(SearchDto params){
         return sqlSessionTemplate.selectOne("toryMapper.getPostCount", params);
     }
+
+    public Post getPost(int postSeq){
+        return sqlSessionTemplate.selectOne("toryMapper.getPost", postSeq);
+    }
 }
 
 

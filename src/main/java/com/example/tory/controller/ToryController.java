@@ -7,6 +7,7 @@ import com.example.tory.service.ToryService;
 import com.example.tory.store.ToryRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import jakarta.websocket.Session;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -101,6 +102,14 @@ public class ToryController {
         }
         toryRepository.addPost(post);
         return "redirect:/";
+    }
+
+    @GetMapping("/post/{postSeq}")
+    public String getPost(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member member,
+                          @ModelAttribute("post") Post post, Model model,
+                          @PathVariable("postSeq") String postSeq){
+        log.info("postSeq: {}", postSeq);
+        return "tory/logoutView";
     }
 
 

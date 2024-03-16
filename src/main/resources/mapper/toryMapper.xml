@@ -76,4 +76,20 @@
         now()
         )
     </insert>
+
+    <select id="getPost" parameterType="int" resultType="com.example.tory.domain.Post">
+        SELECT
+        post_seq as postSeq
+        , title as title
+        , author as author
+        , content as content
+        , is_delete as isDelete
+        , is_member as isMember
+        , password as password
+        , member_seq as memberSeq
+        , DATE_FORMAT(createAt, '%m-%d') as createAt
+        , DATE_FORMAT(updateAt, '%m-%d') as updateAt
+        FROM post
+        WHERE post_seq = #{postSeq}
+    </select>
 </mapper>

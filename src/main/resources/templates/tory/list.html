@@ -75,7 +75,7 @@
                 html += `
                 <div>
                     <div class="num" text="${row.postSeq}">${row.postSeq}</div>
-                    <div class="title" text="${row.title}"><a href="view.html">${row.title}</a></div>
+                    <div class="title" text="${row.title}"><a href="/tory/post/${row.postSeq}" th:href="@{|/tory/post/${row.postSeq}|}">${row.title}</a></div>
                     <div class="writer" text="${row.author}">${row.author}</div>
                     <div class="date" text="${row.createAt}">${row.createAt}</div>
                 </div>
