@@ -106,9 +106,10 @@ public class ToryController {
 
     @GetMapping("/post/{postSeq}")
     public String getPost(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member member,
-                          @ModelAttribute("post") Post post, Model model,
-                          @PathVariable("postSeq") String postSeq){
+                          Model model, @PathVariable("postSeq") int postSeq){
         log.info("postSeq: {}", postSeq);
+        Post post = toryRepository.getPost(postSeq);
+        model.addAttribute("post", post);
         return "tory/logoutView";
     }
 
