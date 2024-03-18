@@ -38,6 +38,10 @@ public class ToryRepository {
     public Post getPost(int postSeq){
         return sqlSessionTemplate.selectOne("toryMapper.getPost", postSeq);
     }
+
+    public int updatePost(Post post){
+        return sqlSessionTemplate.update("toryMapper.updatePost", post);
+    }
 }
 
 

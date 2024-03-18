@@ -34,20 +34,13 @@
 <!--              <dd>33</dd>-->
 <!--            </dl>-->
           </div>
-          <div th:text="${post.content}" class="cont">
-            글 내용이 들어갑니다<br />
-            글 내용이 들어갑니다<br />
-            글 내용이 들어갑니다<br />
-            글 내용이 들어갑니다<br />
-            글 내용이 들어갑니다<br />
-            글 내용이 들어갑니다<br />
-            글 내용이 들어갑니다<br />
-            글 내용이 들어갑니다
+          <div class="cont">
+            <pre th:text="${post.content}"></pre>
           </div>
         </div>
         <div class="bt_wrap">
           <a href="list.html" th:href="@{/}" class="on">목록</a>
-          <a href="edit.html">수정</a>
+          <a href="edit.html" th:href="@{/tory/edit/{postSeq}(postSeq=${post.postSeq})}">수정</a>
         </div>
       </div>
     </div>

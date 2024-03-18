@@ -92,4 +92,41 @@
         FROM post
         WHERE post_seq = #{postSeq}
     </select>
+
+    <update id="updatePost" parameterType="com.example.tory.domain.Post">
+        UPDATE post
+        SET
+            <if test="title != null">title = #{title}, </if>
+            <if test="author != null">author = #{author}, </if>
+            <if test="content != null">content = #{content}, </if>
+            <if test="password != null">password = #{password}, </if>
+            updateAt = now()
+        WHERE
+            post_seq = #{postSeq}
+    </update>
 </mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

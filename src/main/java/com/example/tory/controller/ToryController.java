@@ -43,6 +43,12 @@ public class ToryController {
         return "tory/list";
     }
 
+
+    @ModelAttribute("member")
+    public Member getLoggedInMember(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member member) {
+        return member;
+    }
+
     @GetMapping("/member_add")
     public String memberAddForm(@ModelAttribute("member") Member member){
         return "tory/memberAdd";
@@ -80,11 +86,11 @@ public class ToryController {
     }
 
     @GetMapping("/write")
-    public String write(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member member, Model model){
+    public String write(Member member, Model model){
         model.addAttribute("post", new Post());
         if(member == null){
             log.info("logout 글쓰기");
-            return "tory/write";
+            return "tory/logoutWrite";
         }
         log.info("login 글쓰기");
         model.addAttribute("member", member);
@@ -92,7 +98,7 @@ public class ToryController {
     }
 
     @PostMapping("/write")
-    public String addPost(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member member,
+    public String addPost(Member member,
                             @ModelAttribute("post") Post post, RedirectAttributes redirectAttributes){
         post.setIsMember("N");
         if(member != null){
@@ -105,12 +111,30 @@ public class ToryController {
     }
 
     @GetMapping("/post/{postSeq}")
-    public String getPost(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member member,
+    public String getPost(Member member,
                           Model model, @PathVariable("postSeq") int postSeq){
         log.info("postSeq: {}", postSeq);
         Post post = toryRepository.getPost(postSeq);
         model.addAttribute("post", post);
         return "tory/logoutView";
+    }
+
+    @GetMapping("/edit/{postSeq}")
+    public String editPost(Member member, @PathVariable("postSeq") int postSeq, Model model) {
+        log.info("editPost: {}", postSeq);
+        Post post = toryRepository.getPost(postSeq);
+        model.addAttribute("post", post);
+        return "tory/logoutEdit";
+    }
+
+    @PostMapping("/edit/{postSeq}")
+    public String updatePost(Member member, @PathVariable("postSeq") int postSeq, Model model
+                            , @ModelAttribute("post") Post post, RedirectAttributes redirectAttributes) {
+        log.info("updatePost: {}", postSeq);
+        int result = toryRepository.updatePost(post);
+        model.addAttribute("post", post);
+        log.info("updatePost result: {}",result);
+        return "redirect:/tory/post/" + postSeq;
     }
 
 
