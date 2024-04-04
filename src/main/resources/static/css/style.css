@@ -427,3 +427,24 @@ button:hover {
   border: 0;
   resize: vertical;
 }
+
+
+/* 삭제 버튼 디자인 */
+.bt_wrap #deleteButton {
+  display: inline-block;
+  min-width: 80px;
+  margin-left: 10px;
+  padding: 10px;
+  border: 1px solid #ff6347; /* 붉은색 테두리 */
+  border-radius: 2px;
+  font-size: 1.4rem;
+  background-color: #ff6347; /* 붉은색 배경 */
+  color: #fff; /* 흰색 텍스트 */
+  cursor: pointer;
+}
+
+/* 삭제 버튼 호버 효과 */
+.bt_wrap #deleteButton:hover {
+  background-color: #ff6347; /* 호버시 붉은색 배경 유지 */
+  color: #000; /* 텍스트 색상 변경 */
+}

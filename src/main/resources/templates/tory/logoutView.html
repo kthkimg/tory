@@ -1,48 +1,108 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>공지사항</title>
-    <link th:href="@{/css/css.css}"
-          href="../css/css.css" rel="stylesheet">
-  </head>
-  <body>
-    <div class="board_wrap">
-      <div class="board_title">
-        <strong>공지사항</strong>
-        <p>공지사항을 빠르고 정확하게 안내해드립니다.</p>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>공지사항</title>
+  <link th:href="@{/css/css.css}" href="../css/css.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="board_wrap">
+  <div class="board_title">
+    <strong>공지사항</strong>
+    <p>공지사항을 빠르고 정확하게 안내해드립니다.</p>
+  </div>
+  <div class="board_view_wrap">
+    <div class="board_view">
+      <div class="title">글 제목이 들어갑니다.</div>
+      <div class="info">
+        <dl>
+          <dt>번호</dt>
+          <dd th:text="${post.postSeq}">1</dd>
+        </dl>
+        <dl>
+          <dt>글쓴이</dt>
+          <dd th:text="${post.author}">김이름</dd>
+        </dl>
+        <dl>
+          <dt>작성일</dt>
+          <dd th:text="${post.createAt}">2021.1.16</dd>
+        </dl>
       </div>
-      <div class="board_view_wrap">
-        <div class="board_view">
-          <div class="title">글 제목이 들어갑니다.</div>
-          <div class="info">
-            <dl>
-              <dt>번호</dt>
-              <dd th:text="${post.postSeq}">1</dd>
-            </dl>
-            <dl>
-              <dt>글쓴이</dt>
-              <dd th:text="${post.author}">김이름</dd>
-            </dl>
-            <dl>
-              <dt>작성일</dt>
-              <dd th:text="${post.createAt}">2021.1.16</dd>
-            </dl>
-<!--            <dl>-->
-<!--              <dt>조회</dt>-->
-<!--              <dd>33</dd>-->
-<!--            </dl>-->
+      <div class="cont">
+        <pre th:text="${post.content}"></pre>
+      </div>
+    </div>
+    <div class="bt_wrap">
+      <a href="list.html" th:href="@{/}" class="on">목록</a>
+      <a href="edit.html" th:href="@{/tory/edit/{postSeq}(postSeq=${post.postSeq})}">수정</a>
+      <!-- 삭제 버튼 -->
+      <button id="deleteButton" type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        삭제
+      </button>
+
+      <!-- 삭제 모달 -->
+      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">게시물 삭제</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              게시물을 삭제하시겠습니까?
+              <div class="mb-3">
+                <label for="passwordInput" class="form-label">비밀번호:</label>
+                <input type="password" class="form-control" id="passwordInput">
+              </div>
+              <div id="passwordError" class="text-danger" style="display: none;">비밀번호가 틀렸습니다.</div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeModal()">취소</button>
+              <form id="deleteForm" th:action="@{/tory/post/delete}" method="post">
+                <input type="hidden" id="postSeq" name="postSeq" th:value="${post.postSeq}" />
+                <input type="hidden" name="_method" value="DELETE" />
+                <button type="button" class="btn btn-danger" onclick="confirmDelete()">삭제</button>
+              </form>
+            </div>
           </div>
-          <div class="cont">
-            <pre th:text="${post.content}"></pre>
-          </div>
-        </div>
-        <div class="bt_wrap">
-          <a href="list.html" th:href="@{/}" class="on">목록</a>
-          <a href="edit.html" th:href="@{/tory/edit/{postSeq}(postSeq=${post.postSeq})}">수정</a>
         </div>
       </div>
     </div>
-  </body>
+  </div>
+</div>
+</body>
+<script th:inline="javascript">
+    var postPassword = /*[[${post.password}]]*/ '';
+
+    // 비밀번호 확인 함수
+function confirmDelete() {
+  var passwordInput = document.getElementById('passwordInput').value;
+
+  // 게시물의 비밀번호와 입력된 비밀번호를 비교합니다.
+  if (passwordInput === postPassword) {
+    // 비밀번호가 일치할 경우 게시물 삭제 요청을 보냅니다.
+    document.getElementById('deleteForm').submit();
+  } else {
+    // 비밀번호가 틀렸을 경우 에러 메시지를 표시합니다.
+    document.getElementById('passwordError').style.display = 'block';
+  }
+}
+function closeModal() {
+    // 모달 내의 비밀번호 입력 필드를 초기화
+    document.getElementById('passwordInput').value = '';
+    // 모달을 닫음
+    var modal = document.getElementById('exampleModal');
+    modal.style.display = 'none';
+    document.getElementById('wrongPasswordMessage').style.display = 'none';
+}
+
+var myModal = document.getElementById('exampleModal');
+myModal.addEventListener('hidden.bs.modal', function () {
+    document.getElementById('passwordInput').value = ''; // 비밀번호 입력 필드 초기화
+    document.getElementById('passwordError').style.display = 'none'; // 비밀번호가 틀렸습니다 메시지 숨기기
+});
+</script>
 </html>

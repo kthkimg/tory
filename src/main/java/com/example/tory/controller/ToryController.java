@@ -137,6 +137,16 @@ public class ToryController {
         return "redirect:/tory/post/" + postSeq;
     }
 
+    @PostMapping("/post/delete")
+    public String postPasswordCheck(@RequestParam("postSeq") int postSeq, Model model) {
+        log.info("deleteCheck: {}", postSeq);
+        // 해당 postSeq에 해당하는 게시물을 가져옴
+        int result = toryRepository.deletePost(postSeq);
+        log.info("삭제결과: {}", result);
+
+        return "redirect:/";
+    }
+
 
 }
 

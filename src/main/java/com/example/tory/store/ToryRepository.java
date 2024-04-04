@@ -42,6 +42,10 @@ public class ToryRepository {
     public int updatePost(Post post){
         return sqlSessionTemplate.update("toryMapper.updatePost", post);
     }
+
+    public int deletePost(int postSeq){
+        return sqlSessionTemplate.update("toryMapper.deletePost", postSeq);
+    }
 }
 
 

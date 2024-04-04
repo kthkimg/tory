@@ -104,6 +104,14 @@
         WHERE
             post_seq = #{postSeq}
     </update>
+
+    <update id="deletePost" parameterType="int">
+        UPDATE post
+        SET
+            is_delete = 'Y'
+        WHERE
+            post_seq = #{postSeq}
+    </update>
 </mapper>
 
 
