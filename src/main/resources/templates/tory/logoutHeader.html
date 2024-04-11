@@ -11,7 +11,7 @@
     <div>
       <form class="login_info" th:action="@{/tory/login}" th:object="${loginForm}" method="post">
         <input type="text" th:field="*{id}" placeholder="아이디" />
-        <input type="text" th:field="*{password}" placeholder="암호" />
+        <input type="password" th:field="*{password}" placeholder="암호" />
         <div class="bt_wrap">
           <button class="on" type="submit">로그인</button>
           <a th:href="@{/tory/member_add}" class="on">회원가입</a>

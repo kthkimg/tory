@@ -25,6 +25,14 @@ a {
   margin-right: 10px;
 }
 
+.header_wrap input[type="password"] {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-right: 10px;
+}
+
 .header_wrap input {
   margin-left: 100px;
 }
