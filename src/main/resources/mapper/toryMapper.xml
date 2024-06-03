@@ -17,18 +17,54 @@
             , DATE_FORMAT(updateAt, '%m-%d') as updateAt
         FROM post
         WHERE is_delete = 'N'
+            <include refid="search"/>
         ORDER BY
             post_seq DESC
         LIMIT #{pagination.limitStart}, #{recordSize}
     </select>
 
+
     <select id="getPostCount" parameterType="com.example.tory.domain.SearchDto" resultType="int">
         SELECT
-            COUNT(*)
+        COUNT(*)
         FROM post
         WHERE
-            is_delete = 'N'
+        is_delete = 'N'
+        <include refid="search"/>
     </select>
+
+
+    <!-- 게시글 검색 -->
+    <sql id="search">
+        <!-- 검색 키워드가 있을 때 -->
+        <if test="keyword != null and keyword != ''">
+            <choose>
+                <!-- 검색 유형이 있을 때 -->
+                <when test="searchType != null and searchType != ''">
+                    <choose>
+                        <when test="'title'.equals( searchType )">
+                            AND title LIKE CONCAT('%', #{keyword}, '%')
+                        </when>
+                        <when test="'content'.equals( searchType )">
+                            AND content LIKE CONCAT('%', #{keyword}, '%')
+                        </when>
+                        <when test="'writer'.equals( searchType )">
+                            AND author LIKE CONCAT('%', #{keyword}, '%')
+                        </when>
+                    </choose>
+                </when>
+                <!-- 전체 검색일 때 -->
+                <otherwise>
+                    AND (
+                        title LIKE CONCAT('%', #{keyword}, '%')
+                        OR content LIKE CONCAT('%', #{keyword}, '%')
+                        OR author LIKE CONCAT('%', #{keyword}, '%')
+                    )
+                </otherwise>
+            </choose>
+        </if>
+    </sql>
+
 
     <insert id="addMember" parameterType="com.example.tory.domain.Member">
         INSERT INTO MEMBER (id, password, name, email)

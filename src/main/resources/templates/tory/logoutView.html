@@ -36,7 +36,8 @@
       </div>
     </div>
     <div class="bt_wrap">
-      <a href="list.html" th:href="@{/}" class="on">목록</a>
+<!--      <a href="list.html" th:href="@{/}" class="on">목록</a>-->
+      <a th:onclick="goListPage()" class="on">목록</a>
       <button id="updateButton" type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#updateModal">
         수정
       </button>
@@ -66,7 +67,7 @@
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="updateCloseModal()">취소</button>
               <form id="updateForm" th:action="@{/tory/edit/{postSeq}(postSeq=${post.postSeq})}" method="get">
                 <input type="hidden" id="updatePostSeq" name="postSeq" th:value="${post.postSeq}" />
-                <input type="hidden" name="_method" value="DELETE" />
+                <input type="hidden" name="_method" value="GET" />
                 <button type="button" class="btn btn-danger" onclick="confirmUpdate()">수정</button>
               </form>
             </div>
@@ -141,6 +142,25 @@ myModal.addEventListener('hidden.bs.modal', function () {
 function confirmUpdate() {
   var passwordInput = document.getElementById('updatePasswordInput').value;
 
+   let inputHtml = '';
+
+        new URLSearchParams(location.search).forEach((value, key) => {
+            inputHtml += `<input type="hidden" name="${key}" value="${value}" />`;
+        })
+
+    console.log(inputHtml)
+
+            const formHtml = `
+            <form id="deleteForm" action="/post/delete.do" method="post">
+                ${inputHtml}
+            </form>
+        `;
+
+        const doc = new DOMParser().parseFromString(formHtml, 'text/html');
+        const form = doc.body.firstChild;
+        document.body.append(form);
+
+
   // 게시물의 비밀번호와 입력된 비밀번호를 비교합니다.
   if (passwordInput === postPassword) {
     // 비밀번호가 일치할 경우 게시물 삭제 요청을 보냅니다.
@@ -164,5 +184,11 @@ updateModal.addEventListener('hidden.bs.modal', function () {
     document.getElementById('updatePasswordInput').value = ''; // 비밀번호 입력 필드 초기화
     document.getElementById('updatePasswordError').style.display = 'none'; // 비밀번호가 틀렸습니다 메시지 숨기기
 });
+
+function goListPage(){
+  const queryString = location.search;
+  console.log(queryString);
+  location.href=`/`+ queryString;
+}
 </script>
 </html>

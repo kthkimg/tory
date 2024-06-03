@@ -28,6 +28,7 @@ public class HomeController {
         if(member != null){
             model.addAttribute("member", member);
         }
+        log.info("{}", paging);
         return "tory/list";
     }
 

@@ -456,3 +456,72 @@ button:hover {
   background-color: #ff6347; /* 호버시 붉은색 배경 유지 */
   color: #000; /* 텍스트 색상 변경 */
 }
+
+
+/* 검색 박스 전체 스타일 */
+.search_box {
+    margin: 20px 0;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+/* 검색 그룹 스타일 */
+.sch_group {
+    display: flex;
+    align-items: center;
+}
+
+/* 검색 유형 선택 스타일 */
+.sch_group select {
+    height: 40px;
+    padding: 0 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 10px;
+    font-size: 14px;
+}
+
+/* 키워드 입력 스타일 */
+.sch_group input[type="text"] {
+    height: 40px;
+    padding: 0 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    flex-grow: 1;
+    font-size: 14px;
+    margin-right: 10px;
+}
+
+/* 검색 버튼 스타일 */
+.bt_search {
+    height: 40px;
+    padding: 0 15px;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.bt_search i {
+    margin-right: 5px;
+}
+
+.bt_search:hover {
+    background-color: #0056b3;
+}
+
+/* 플로트 클래스 - 좌측 정렬 */
+.fl {
+    float: left;
+}
+
+/* 검색 스킵 정보 숨김 */
+.skip_info {
+    /*display: none;*/
+}

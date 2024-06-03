@@ -3,6 +3,7 @@ package com.example.tory.controller;
 import com.example.tory.domain.LoginForm;
 import com.example.tory.domain.Member;
 import com.example.tory.domain.Post;
+import com.example.tory.domain.SearchDto;
 import com.example.tory.service.ToryService;
 import com.example.tory.store.ToryRepository;
 import jakarta.servlet.http.HttpServletRequest;
