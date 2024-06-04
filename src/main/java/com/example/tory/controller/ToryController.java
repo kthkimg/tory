@@ -56,7 +56,7 @@ public class ToryController {
     }
 
     @PostMapping("/member_add")
-    public String memberSave(@ModelAttribute Member member){
+    public String memberSave(@ModelAttribute("Member") Member member){
         toryRepository.addMember(member);
         return "redirect:/";
     }

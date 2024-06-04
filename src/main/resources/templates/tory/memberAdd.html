@@ -1,48 +1,83 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>공지사항</title>
-    <link rel="stylesheet" th:href="@{/css/css.css}"/>
-  </head>
-  <body>
-    <div class="board_wrap">
-      <div class="board_title">
-        <strong>회원가입</strong>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>공지사항</title>
+  <link rel="stylesheet" th:href="@{/css/css.css}"/>
+  <style>
+      .error-message {
+          color: red;
+          display: none;
+      }
+  </style>
+</head>
+<body>
+<div class="board_wrap">
+  <div class="board_title">
+    <strong>회원가입</strong>
+  </div>
+  <form class="board_write_wrap" th:action th:object="${member}" method="post" onsubmit="return validateForm()">
+    <div class="board_write">
+      <div class="info">
+        <dl>
+          <dt>아이디</dt>
+          <dd><input type="text" th:field="*{id}" placeholder="아이디 입력" /></dd>
+        </dl>
       </div>
-      <form class="board_write_wrap" th:action th:object="${member}" method="post">
-        <div class="board_write">
-          <div class="info">
-            <dl>
-              <dt>아이디</dt>
-              <dd><input type="text" th:field="*{id}" placeholder="아이디 입력" /></dd>
-            </dl>
-          </div>
-          <div class="info">
-            <dl>
-              <dt>비밀번호</dt>
-              <dd><input type="text" th:field="*{password}" placeholder="비밀번호 입력" /></dd>
-            </dl>
-          </div>
-          <div class="info">
-            <dl>
-              <dt>이름</dt>
-              <dd><input type="text" th:field="*{name}" placeholder="이름 입력" /></dd>
-            </dl>
-          </div>
-          <div class="info">
-            <dl>
-              <dt>이메일</dt>
-              <dd><input type="text" th:field="*{email}" placeholder="이메일 입력" /></dd>
-            </dl>
-          </div>
-        </div>
-        <div class="bt_wrap">
-          <button type="submit" class="on">등록</button>
-          <a href="/">취소</a>
-        </div>
-      </form>
+      <div class="info">
+        <dl>
+          <dt>비밀번호</dt>
+          <dd><input type="password" id="password" th:field="*{password}" placeholder="비밀번호 입력" /></dd>
+        </dl>
+      </div>
+      <div class="info">
+        <dl>
+          <dt>비밀번호 확인</dt>
+          <dd><input type="password" id="confirmPassword" placeholder="비밀번호 확인" /></dd>
+          <dd id="errorMessage" class="error-message">비밀번호가 일치하지 않습니다.</dd>
+        </dl>
+      </div>
+      <div class="info">
+        <dl>
+          <dt>이름</dt>
+          <dd><input type="text" th:field="*{name}" placeholder="이름 입력" /></dd>
+        </dl>
+      </div>
+      <div class="info">
+        <dl>
+          <dt>이메일</dt>
+          <dd><input type="text" th:field="*{email}" placeholder="이메일 입력" /></dd>
+        </dl>
+      </div>
     </div>
-  </body>
+    <div class="bt_wrap">
+      <button type="submit" class="on">등록</button>
+      <a href="/">취소</a>
+    </div>
+  </form>
+</div>
+<script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var errorMessage = document.getElementById("errorMessage");
+            errorMessage.style.display = "none"; // 초기 로드 시 오류 메시지를 숨깁니다.
+        });
+
+        function validateForm() {
+            var password = document.getElementById("password").value;
+            var confirmPassword = document.getElementById("confirmPassword").value;
+            var errorMessage = document.getElementById("errorMessage");
+
+            if (password !== confirmPassword) {
+                errorMessage.style.display = "block";
+                console.log("실패");
+                return false; // 폼 제출을 중단합니다.
+            } else {
+                errorMessage.style.display = "none";
+                console.log("성공");
+                return true; // 폼 제출을 진행합니다.
+            }
+        }
+    </script>
+</body>
 </html>
